@@ -1,0 +1,103 @@
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"/>
+
+<div class="container">
+
+	<div class="jumbotron">
+		<h1>{{title}}</h1>
+		<p>Welcome to {{title}}</p>
+		<div id="fill"></div>
+
+		<fb:login-button
+				scope="public_profile,email,user_birthday,user_managed_groups"
+				onlogin="checkLoginState();">
+		</fb:login-button>
+	</div>
+
+</div>
+<script>
+	window.fbAsyncInit = function () {
+		FB.init({
+			appId: '165657674090304',
+			cookie: true,
+			xfbml: true,
+			version: 'v2.12'
+		});
+
+		FB.AppEvents.logPageView();
+
+		FB.getLoginStatus(function (response) {
+			statusChangeCallback(response);
+		});
+
+	};
+
+	function checkLoginState() {
+		FB.getLoginStatus(function (response) {
+			statusChangeCallback(response);
+		});
+	}
+
+
+	function statusChangeCallback(response2) {
+		if (response2.status === 'connected') {
+			console.log(response2.authResponse.accessToken);
+		}
+//
+//		FB.api(
+//				"/100024884662443",
+//				function (response) {
+//					if (response && !response.error) {
+//						console.log('no error');
+//						console.log(response);
+//					} else {
+//						console.log('error');
+//						console.log(response.error);
+//					}
+//				}
+//		);
+		// luke = 100000020020307
+		FB.api(
+				'/1234716333326781',
+				'GET',
+				{},
+				function (response) {
+					if (response && !response.error) {
+						console.log('no error');
+						console.log(response);
+						$('#fill').text(response);
+
+					} else {
+						console.log('error');
+						console.log(response.error);
+						$('#fill').text(response);
+
+					}
+				}
+		);
+
+
+	}
+
+</script>
+<script>
+	// Load the SDK asynchronously
+	(function (d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s);
+		js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
